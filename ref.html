@@ -1,0 +1,34 @@
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+	class Foo extends React.Component {
+		componentDidMount() {
+			console.log(this.node)
+			ReactDOM.render(<Bar />, document.getElementById('root'))
+		}
+		render() {
+			return (
+				<div ref={node => (this.node = node)}>
+					Hello world!
+				</div>
+			)
+		}
+	}
+
+	class Bar extends React.Component {
+		render() {
+			return (
+				<div>
+					Goodbye world!
+				</div>
+			)
+		}
+	}
+
+	ReactDOM.render(<Foo />, document.getElementById('root'))
+</script>

@@ -1,0 +1,48 @@
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+	class NameForm extends React.Component {
+		state = {error: this.props.getErrorMessage('')}
+		handleSubmit = event => {
+			event.preventDefault()
+
+			console.log(this.username.value)
+		}
+		handleChange = event => {
+			this.setState({
+				error: this.props.getErrorMessage(this.username.value)
+			})
+		}
+		render() {
+			const {error} = this.state
+			return (
+				<form onSubmit={this.handleSubmit}>
+					<label>
+						Name: <input type="text" onChange={this.handleChange} name="username" ref={node => this.username = node} />
+					</label>
+					<button disabled={Boolean(error)} type="submit">Submit</button>
+					{error? (
+						<p>{error}</p>
+					) : null}
+				</form>
+			)
+		}
+	}
+
+	ReactDOM.render(
+		<NameForm
+			getErrorMessage = {value => {
+				if(value.length < 3) {
+					return 'Minimum 3 characters.'
+				}
+				return null
+			}}
+		/>,
+		document.getElementById('root')
+	)
+</script>

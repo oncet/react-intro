@@ -1,0 +1,59 @@
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+<script crossorigin src="https://unpkg.com/axios@0.16.2/dist/axios.min.js"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+class UserCompany extends React.Component {
+	state = {
+		loaded: false,
+		company: undefined,
+	}
+	componentDidMount() {
+		axios({
+			url: 'https://api.github.com/graphql',
+			method: 'post',
+			data: {
+                query: `{
+                    user(login: "${this.props.username}") {
+                        company
+                    }
+                }`
+            },
+            headers: {Authorization: `bearer 5de4651775b493e8247258464a851baf3156cd03`}
+		}).then(response => {
+				this.setState({
+					loaded: true,
+					company: response.data.data.user.company,
+				})
+			}, error => {
+				this.setState({
+					error,
+					loaded: true,
+				})
+			}
+		)
+	}
+	render() {
+		return this.state.loaded
+			? this.state.error
+				? 'Error!'
+				: this.state.company || 'Unknown'
+			: '...'
+	}
+}
+const username = 'oncet'
+const element = (
+	<div>
+		<div>
+			{`@${username} works at `}
+			<UserCompany username={username} />
+		</div>
+	</div>
+)
+
+ReactDOM.render(element, document.getElementById('root'))
+</script>

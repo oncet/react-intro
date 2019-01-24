@@ -1,0 +1,28 @@
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+	class Counter extends React.Component {
+		state = {
+			times: 0
+		}
+
+		handleClick = () => {
+			this.setState(state => ({ times: state.times + 1 }))
+		}
+
+		render() {
+			return (
+				<div>
+					<button onClick={this.handleClick}>Clicked {this.state.times} time{this.state.times == 1? '' : 's'}</button>
+				</div>
+			)
+		}
+	}
+
+	ReactDOM.render(<Counter />, document.getElementById('root'))
+</script>
